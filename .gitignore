@@ -1,0 +1,13 @@
+# Uncomment this to allow plugin versions to change
+# lazy-lock.json
+
+# temporary/swap files created by Neovim
+*.swp
+*.swo
+*~
+
+# Neovim undo history if saved locally
+.undo/
+
+# OS-generated files
+.DS_Store
