@@ -12,6 +12,7 @@ vim.opt.listchars = {
 
 vim.opt.number = true
 vim.opt.updatetime = 500
+vim.opt.signcolumn = "yes"
 
 -- Auto-indentation based on line context and filetype syntax
 vim.opt.autoindent = true     -- Copy indent from current line when making a new line
