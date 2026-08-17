@@ -8,7 +8,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed = { "pyright" },
+      ensure_installed = { "pyright", "vtsls" },
       automatic_installation = true,
     },
   },
@@ -23,7 +23,7 @@ return {
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Neovim 0.11+ native LSP configuration API
+      -- Python
       vim.lsp.config("pyright", {
         cmd = { "pyright-langserver", "--stdio" },
         filetypes = { "python" },
@@ -39,9 +39,33 @@ return {
           },
         },
       })
+      -- TypeScript
+      vim.lsp.config("vtsls", {
+        cmd = { "vtsls", "--stdio" },
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "javascript.jsx",
+          "typescript",
+          "typescriptreact",
+          "typescript.tsx",
+        },
+        root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
+        capabilities = capabilities,
+        settings = {
+          typescript = {
+            inlayHints = {
+              parameterNames = { enabled = "literals" },
+              variableTypes = { enabled = true },
+            },
+          },
+        },
+      })
 
-      -- Enable the server
+
+      -- Enable servers
       vim.lsp.enable("pyright")
+      vim.lsp.enable("vtsls")
 
       -- Global LSP Keybindings (Active when opening code files)
       vim.api.nvim_create_autocmd("LspAttach", {
