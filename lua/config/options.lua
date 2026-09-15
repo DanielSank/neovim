@@ -1,4 +1,4 @@
--- Set <Space> as the leader key
+-- Set the leader key
 vim.g.mapleader = "\\"
 vim.g.maplocalleader = "\\"
 
@@ -27,3 +27,8 @@ vim.opt.softtabstop = 4       -- Makes <BS> treat 4 spaces like a tab when delet
 -- Automatic Trailing Whitespace Trim on New Lines
 -- Ensures blank lines created with Enter don't leave lingering spaces
 vim.opt.backspace = { "indent", "eol", "start" }
+
+-- Folding
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevelstart = 0
