@@ -9,7 +9,6 @@ return {
     dependencies = { "williamboman/mason.nvim" },
     opts = {
       ensure_installed = { "pyright", "vtsls" },
-      automatic_installation = true,
     },
   },
 
@@ -21,88 +20,45 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      vim.lsp.config("*", { capabilities = require("cmp_nvim_lsp").default_capabilities() })
 
       -- Python
       vim.lsp.config("pyright", {
-        cmd = { "pyright-langserver", "--stdio" },
-        filetypes = { "python" },
-        root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
-        capabilities = capabilities,
         settings = {
           python = {
             analysis = {
-              autoSearchPaths = true,
-              useLibraryCodeForTypes = true,
-              diagnosticMode = "openFilesOnly",
-              reportUnusedImport = "warning",
-              reportUnusedVariable = "warning",
-            },
-          },
-        },
-      })
-      -- TypeScript
-      vim.lsp.config("vtsls", {
-        cmd = { "vtsls", "--stdio" },
-        filetypes = {
-          "javascript",
-          "javascriptreact",
-          "javascript.jsx",
-          "typescript",
-          "typescriptreact",
-          "typescript.tsx",
-        },
-        root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
-        capabilities = capabilities,
-        settings = {
-          typescript = {
-            inlayHints = {
-              parameterNames = { enabled = "literals" },
-              variableTypes = { enabled = true },
+              diagnosticSeverityOverrides = {
+                reportUnusedImport = "warning",
+                reportUnusedVariable = "warning",
+              },
             },
           },
         },
       })
 
-
-      -- Enable servers
-      vim.lsp.enable("pyright")
-      vim.lsp.enable("vtsls")
-
-      -- Global LSP Keybindings (Active when opening code files)
+      vim.diagnostic.config({
+        virtual_text = true,
+        float = { focusable = false, style = "minimal", border = "rounded", source = true, header = "", prefix = "" },
+      })
+      local grp = vim.api.nvim_create_augroup("UserLspConfig", {})
       vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+        group = grp,
         callback = function(ev)
-          local opts = { buffer = ev.buf, silent = true }
+          local map = function(lhs, rhs, desc)
+            vim.keymap.set("n", lhs, rhs, { buffer = ev.buf, silent = true, desc = desc })
+          end
+          map("gd", vim.lsp.buf.definition, "Go to definition")
+          map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
+          map("<leader>ca", vim.lsp.buf.code_action, "Code action")
 
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to Definition" }))
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover Documentation" }))
-          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename Symbol" }))
-          vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code Action" }))
-          vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Previous Diagnostic" }))
-          vim.keymap.set("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next Diagnostic" }))
-
-          -- Show errors inline
-          vim.diagnostic.config({
-            virtual_text = true,
-            float = {
-              focusable = false,
-              style = "minimal",
-              border = "rounded",
-              source = "always",
-              header = "",
-              prefix = "",
-            },
-          })
-          -- Show diagnostic floating window automatically when holding cursor over an error
+          vim.api.nvim_clear_autocmds({ group = grp, event = "CursorHold", buffer = ev.buf })
           vim.api.nvim_create_autocmd("CursorHold", {
-            callback = function()
-              vim.diagnostic.open_float(nil, { focus = false })
-            end,
+            group = grp, buffer = ev.buf,
+            callback = function() vim.diagnostic.open_float(nil, { focus = false }) end,
           })
-        end,
+        end
       })
-    end,
+    end
   },
 
   -- 3. Autocompletion Engine (nvim-cmp)
@@ -122,7 +78,7 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<CR>"] = cmp.mapping.confirm({ select = false }),
           ["<Tab>"] = cmp.mapping.select_next_item(),
           ["<S-Tab>"] = cmp.mapping.select_prev_item(),
         }),

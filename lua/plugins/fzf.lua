@@ -1,3 +1,5 @@
+-- Recommend installing ripgrep and fd-find to make commands used by this
+-- plugin faster.
 return {
   "ibhagwan/fzf-lua",
   config = function()

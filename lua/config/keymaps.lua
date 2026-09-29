@@ -9,17 +9,8 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
 vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
 
 
--- Buffer Navigation
-
-vim.keymap.set("n", "<Tab>", ":bnext<CR>", opts)
--- Move to next buffer
-
-vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", opts)
--- Move to previous buffer
-
-
 -- Clear search highlights easily
-vim.keymap.set("n", "<CR>", ":nohlsearch<CR>", opts)
+vim.keymap.set("n", "<Space>", ":nohlsearch<CR>", opts)
 
 
 -- Keep cursor centered when scrolling half pages
