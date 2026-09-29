@@ -2,13 +2,9 @@
 require("config.options")
 require("config.keymaps")
 
--- lazy.nvim can't read git's "reftable" repo format.
--- Make git commands started by Neovim (lazy's clones)
--- use the classic "files" format.
-local n = tonumber(vim.env.GIT_CONFIG_COUNT) or 0
-vim.env["GIT_CONFIG_KEY_" .. n] = "init.defaultRefFormat"
-vim.env["GIT_CONFIG_VALUE_" .. n] = "files"
-vim.env.GIT_CONFIG_COUNT = tostring(n + 1)
+-- lazy.nvim can't read git's "reftable" format: https://github.com/folke/lazy.nvim/issues/2046
+-- Make git commands started by Neovim use the classic "files" format.
+vim.env.GIT_DEFAULT_REF_FORMAT = "files"
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
