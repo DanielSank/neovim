@@ -1,7 +1,6 @@
 return {
   "smoka7/hop.nvim",
   version = "*",
-  event = "VeryLazy",
   opts = {},
   keys = {
     { "<leader>j", "<cmd>HopWordAC<CR>",              mode = { "n", "x", "o" }, desc = "Hop word forward" },
