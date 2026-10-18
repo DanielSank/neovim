@@ -7,6 +7,7 @@ return {
     -- Download + compile parsers (async; does nothing if already installed)
     require("nvim-treesitter").install({
       "lua", "python", "javascript", "typescript", "tsx", "rust", "go", "bash",
+      "html", "css", "styled",
     })
 
     -- main no longer turns features on by itself; do it per buffer

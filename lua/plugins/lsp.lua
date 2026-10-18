@@ -36,6 +36,11 @@ return {
         },
       })
 
+      -- Use workspace TypeScript if available
+      vim.lsp.config("vtsls", {
+        settings = { vtsls = { autoUseWorkspaceTsdk = true } },
+      })
+
       vim.diagnostic.config({
         virtual_text = true,
         float = { focusable = false, style = "minimal", border = "rounded", source = true, header = "", prefix = "" },
