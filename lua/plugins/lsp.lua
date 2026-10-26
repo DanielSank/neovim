@@ -1,22 +1,26 @@
+local servers = { "pyright", "vtsls" }
+
 return {
   -- 1. LSP Server Management
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {},
   },
   {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = { "williamboman/mason.nvim" },
+    "mason-org/mason-lspconfig.nvim",
+    dependencies = { "mason-org/mason.nvim" },
     opts = {
-      ensure_installed = { "pyright", "vtsls" },
+      ensure_installed = servers,
+      automatic_enable = false,
+      -- We call vim.lsp.enable() below
     },
   },
 
-  -- 2. Built-in LSP Configurations & Keybinds
+  -- 2. LSP Configuration, enabling, and keybinds
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
@@ -40,6 +44,7 @@ return {
       vim.lsp.config("vtsls", {
         settings = { vtsls = { autoUseWorkspaceTsdk = true } },
       })
+      vim.lsp.enable(servers)
 
       vim.diagnostic.config({
         virtual_text = true,
@@ -59,7 +64,7 @@ return {
           vim.api.nvim_clear_autocmds({ group = grp, event = "CursorHold", buffer = ev.buf })
           vim.api.nvim_create_autocmd("CursorHold", {
             group = grp, buffer = ev.buf,
-            callback = function() vim.diagnostic.open_float(nil, { focus = false }) end,
+            callback = function() vim.diagnostic.open_float({ focus = false }) end,
           })
         end
       })

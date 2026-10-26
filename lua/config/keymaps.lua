@@ -10,7 +10,7 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
 
 
 -- Clear search highlights easily
-vim.keymap.set("n", "<Space>", ":nohlsearch<CR>", opts)
+vim.keymap.set("n", "<Space>", "<cmd>nohlsearch<CR>", opts)
 
 
 -- Keep cursor centered when scrolling half pages

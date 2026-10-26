@@ -4,11 +4,13 @@ require("config.keymaps")
 
 -- lazy.nvim can't read git's "reftable" format: https://github.com/folke/lazy.nvim/issues/2046
 -- Make git commands started by Neovim use the classic "files" format.
+-- Beware that this configuration is always active, which will affect
+-- :terminal commands and similar.
 vim.env.GIT_DEFAULT_REF_FORMAT = "files"
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
   local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
   if vim.v.shell_error ~= 0 then

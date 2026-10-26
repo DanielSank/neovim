@@ -16,6 +16,10 @@ return {
       callback = function(ev)
         -- pcall: silently skip filetypes that have no parser
         if pcall(vim.treesitter.start, ev.buf) then
+          -- Fold by syntax tree, only in this buffer's window.
+          vim.wo[0][0].foldmethod = "expr"
+          vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
           -- Optional, experimental: tree-sitter indentation.
           -- Delete this line to use Neovim's built-in indent scripts instead.
           vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"

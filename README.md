@@ -21,7 +21,7 @@ These are programs not managed by neovim or its plugins.
 ### System packages:
 
 ```sh
-sudo apt install build-essential git fzf ripgrep fd-find curl unzip tar gzip
+sudo apt install build-essential git fzf ripgrep fd-find curl unzip tar gzip nodejs npm
 ```
 
 ### Neovim (AppImage):
@@ -38,7 +38,9 @@ Make it executable, and put it at `~/.local/bin/tree-sitter`.
 Don't use apt, whose version may be too old for nvim-treesitter `main`.
 
 ### Node.js
-Install [nvm](https://github.com/nvm-sh/nvm), then `nvm install --lts`.
+`vtsls` needs Node 18+ as of 2026 October.
+Check with `node --version`.
+If apt's `nodejs` is older, install [nvm](https://github.com/nvm-sh/nvm) and run `nvm install --lts` instead.
 
 ## First start
 
