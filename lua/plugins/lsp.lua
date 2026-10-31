@@ -64,7 +64,12 @@ return {
           vim.api.nvim_clear_autocmds({ group = grp, event = "CursorHold", buffer = ev.buf })
           vim.api.nvim_create_autocmd("CursorHold", {
             group = grp, buffer = ev.buf,
-            callback = function() vim.diagnostic.open_float({ focus = false }) end,
+            callback = function()
+              -- Don't replace a float that's already open (e.g. hover from K)
+              local win = vim.b[ev.buf].lsp_floating_preview
+              if win and vim.api.nvim_win_is_valid(win) then return end
+              vim.diagnostic.open_float({ focus = false })
+            end,
           })
         end
       })
