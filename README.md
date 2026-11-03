@@ -4,24 +4,26 @@
 
 These are programs not managed by neovim or its plugins.
 
-| Program                | Needed by                                                    |
-|------------------------|--------------------------------------------------------------|
-| Neovim 0.12+           |                                                              |
-| tree-sitter CLI        | nvim-treesitter `main` branch, to build parsers              |
-| C compiler (`cc`)      | tree-sitter, to compile parsers                              |
-| Node.js + npm          | Mason, to install and run `pyright` and `vtsls`              |
-| git                    | lazy.nvim, to download plugins                               |
-| fzf                    | fzf-lua (`<leader>f*` keymaps)                               |
-| ripgrep (`rg`)         | fzf-lua `live_grep` (`<leader>fg`)                           |
-| fd (optional)          | fzf-lua file finding is faster with it                       |
-| curl, unzip, tar, gzip | Mason and nvim-treesitter downloads                          |
+| Program                       | Needed by                                        |
+|-------------------------------|--------------------------------------------------|
+| Neovim 0.12+                  |                                                  |
+| tree-sitter CLI               | nvim-treesitter `main` branch, to build parsers  |
+| C compiler (`cc`)             | tree-sitter, to compile parsers                  |
+| Node.js + npm                 | Mason, to install and run `pyright` and `vtsls`  |
+| git                           | lazy.nvim, to download plugins                   |
+| fzf                           | fzf-lua (`<leader>f*` keymaps)                   |
+| ripgrep (`rg`)                | fzf-lua `live_grep` (`<leader>fg`)               |
+| fd (optional)                 | fzf-lua file finding is faster with it           |
+| curl, unzip, tar, gzip        | Mason and nvim-treesitter downloads              |
+| latexmk                       | VimTeX, to compile LaTeX (`\tl`)                 |
+| zathura + zathura-pdf-poppler | VimTeX PDF viewer (`\tv`)                        |
 
 ## Installation
 
 ### System packages:
 
 ```sh
-sudo apt install build-essential git fzf ripgrep fd-find curl unzip tar gzip nodejs npm
+sudo apt install build-essential git fzf ripgrep fd-find curl unzip tar gzip nodejs npm zathura latexmk zathura-pdf-poppler
 ```
 
 ### Neovim (AppImage):

@@ -1,4 +1,4 @@
-local servers = { "pyright", "vtsls" }
+local servers = { "pyright", "vtsls", "texlab" }
 
 return {
   -- 1. LSP Server Management
